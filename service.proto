@@ -15,8 +15,10 @@ message RequestField {
     int32 vendor = 1;
     string vendorBillNumber = 2;
     string vendorBillDate = 3;
-    double paidAmount = 4;
-    repeated Product products = 5;
+    string name = 4;
+    string description = 5;
+    double paidAmount = 6;
+    repeated Product products = 7;
 }
 
 message RawRequest {
