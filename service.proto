@@ -1,0 +1,91 @@
+syntax = "proto3";
+
+package purchaseproto;
+
+message RequestHeader {
+    string token = 1;
+}
+
+message Product {
+    int32 id = 1;
+    int32 quantity = 2;
+}
+
+message RequestField {
+    int32 vendor = 1;
+    string vendorBillNumber = 2;
+    string vendorBillDate = 3;
+    double paidAmount = 4;
+    repeated Product products = 5;
+}
+
+message RawRequest {
+    RequestHeader header = 1;
+}
+
+message GetRequest {
+    RequestHeader header = 1;
+    int32 id = 2;
+}
+
+message CreateRequest {
+    RequestHeader header = 1;
+    RequestField field = 2;
+}
+
+message UpdateRequest {
+    RequestHeader header = 1;
+    int32 id = 2;
+    RequestField field = 3;
+}
+
+message ActionRequest {
+    RequestHeader header = 1;
+    int32 id = 2;
+    string name = 3;
+}
+
+message DataResponse {
+    int32 statusCode = 1;
+    string message = 2;
+    message Data {
+        string id = 1;
+        string name = 2;
+        string description =3;
+        int32 vendorID = 4;
+        string vendor = 5;
+        string vendorBillNumber = 6;
+        string vendorBillDate = 7;
+        repeated int32 products = 8;
+        double totalNetAmount = 9;
+        double totalLevyAmount = 10;
+        double totalFinalAmount = 11;
+        double grandTotal = 12;
+        double totalPaidAmount = 13;
+        string createdDate = 14;
+        string createdBy = 15;
+        string lastModifiedBy = 16;
+        string lastModifiedDate = 17;
+        string recordState = 18;
+        int64 referencedBy = 19;
+        string currency = 20;
+    }
+    Data data = 3;
+}
+
+message RawResponse {
+    int32 statusCode = 1;
+    string message = 2;
+    message Data {
+        string currency = 1;
+    }
+    Data data = 3;
+}
+
+service Purchase {
+    rpc Raw(RawRequest) returns (RawResponse);
+    rpc Create(CreateRequest) returns (DataResponse);
+    rpc Get(GetRequest) returns (DataResponse);
+    rpc Update(UpdateRequest) returns (DataResponse);
+    rpc Action(ActionRequest) returns (DataResponse);
+}
